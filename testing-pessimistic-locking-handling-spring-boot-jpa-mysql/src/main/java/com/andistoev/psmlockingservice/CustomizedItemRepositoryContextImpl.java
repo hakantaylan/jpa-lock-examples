@@ -3,7 +3,7 @@ package com.andistoev.psmlockingservice;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 @Component
 @Profile("!test")

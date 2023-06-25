@@ -29,5 +29,5 @@ lock'ı almayı bekleyen diğer process/thread'lerin alması sağlanabilir.
 ### Postgresql docker instance'ını çalıştırmak için
 
 ```
-docker run --name postgresqldb -it --rm -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=testdb -p 5432:5432 -it postgres:14.1-alpine
+docker run --name postgresqldb -it --rm -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=testdb -p 5432:5432 -it postgres:15.3-alpine
 ```

@@ -14,8 +14,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import javax.persistence.LockModeType;
-import javax.persistence.LockTimeoutException;
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.LockTimeoutException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,7 +34,7 @@ public class PessimisticLockingPostgreSQLTest {
     private TestHelper helper;
 
     @Container
-    private static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:14.1-alpine")
+    private static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:15.3-alpine")
             .withDatabaseName("testdb")
             .withUsername("postgres")
             .withPassword("password");
@@ -49,7 +49,7 @@ public class PessimisticLockingPostgreSQLTest {
         registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
         registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
         registry.add("spring.datasource.driverClassName", ()-> "org.postgresql.Driver");
-        registry.add("spring.jpa.database-platform", () -> "org.hibernate.dialect.PostgreSQL95Dialect");
+        registry.add("spring.jpa.database-platform", () -> "org.hibernate.dialect.PostgreSQLDialect");
     }
 
     @AfterEach

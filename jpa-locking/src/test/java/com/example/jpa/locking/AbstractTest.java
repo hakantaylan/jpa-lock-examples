@@ -15,7 +15,7 @@ public abstract class AbstractTest {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractTest.class);
 
-    private static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:14.1-alpine")
+    private static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:15.3-alpine")
             .withDatabaseName("testdb")
             .withUsername("postgres")
             .withPassword("password");
@@ -31,7 +31,7 @@ public abstract class AbstractTest {
         registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
         registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
         registry.add("spring.datasource.driverClassName", () -> "org.postgresql.Driver");
-        registry.add("spring.jpa.database-platform", () -> "org.hibernate.dialect.PostgreSQL95Dialect");
+        registry.add("spring.jpa.database-platform", () -> "org.hibernate.dialect.PostgreSQLDialect");
     }
 
     protected void executeSync(Callable<Void> callable) {

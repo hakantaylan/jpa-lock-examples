@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import javax.persistence.LockModeType;
+import jakarta.persistence.LockModeType;
 
 public interface ArticleRepository extends CrudRepository<Article, Long> {
 
