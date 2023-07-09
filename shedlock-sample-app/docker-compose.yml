@@ -1,0 +1,68 @@
+version: '3.8'
+services:
+  spring-shedlock-service_1:
+    container_name: shedlock1
+    build:
+      dockerfile: Dockerfile
+      context: .
+    volumes:
+      - .:/spring-shedlock
+      - "${HOME}/.m2:/root/.m2"
+    working_dir: /spring-shedlock
+    command:
+      - bash
+      - -c
+      - cd /spring-shedlock && mvn -o -Dmaven.test.skip=true -DskipTests clean spring-boot:run
+    tty: true
+#    ports:
+#      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/testdb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=123
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      postgresql:
+          condition: service_healthy
+
+  spring-shedlock-service_2:
+    container_name: shedlock2
+    build:
+      dockerfile: Dockerfile
+      context: .
+    volumes:
+      - .:/spring-shedlock
+      - "${HOME}/.m2:/root/.m2"
+    working_dir: /spring-shedlock
+    command:
+      - bash
+      - -c
+      - cd /spring-shedlock && mvn -o -Dmaven.test.skip=true -DskipTests clean spring-boot:run
+    tty: true
+#    ports:
+#      - "8081:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/testdb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=123
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=u
+    depends_on:
+      postgresql:
+        condition: service_healthy
+
+  postgresql:
+    image: "postgres:15-alpine"
+    container_name: postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_DB=testdb
+#      - PGUSER=postgres
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}'"]
+      interval: 3s
+      timeout: 5s
+      retries: 3
+#      start_period: 80s
